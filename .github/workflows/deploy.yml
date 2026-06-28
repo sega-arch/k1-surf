@@ -1,10 +1,5 @@
 # Автодеплой k1.surf на Timeweb по FTP.
 # Срабатывает при push в ветку main. Заливает только содержимое папки site/.
-#
-# Секреты (Settings → Secrets and variables → Actions):
-#   FTP_SERVER    — напр. k1.surf  (или FTP-сервер из панели Timeweb)
-#   FTP_USERNAME  — FTP-логин (вероятно k1surf — уточните в панели)
-#   FTP_PASSWORD  — FTP-пароль
 name: Deploy to Timeweb (FTP)
 
 on:
@@ -27,13 +22,11 @@ jobs:
           server:   ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          # Что заливаем — только содержимое site/
+          protocol: ftp
+          port: 21
+          timeout: 60000
           local-dir: ./site/
-          # Куда на сервере. Путь относительно FTP-домашней папки.
-          # По бэкапу сайт лежит в /k1.surf/public_html/ — уточните при первом запуске.
           server-dir: /k1.surf/public_html/
-          # Файлы внутри site/ ничего лишнего не удаляют (инкрементальная синхронизация)
           dangerous-clean-slate: false
           exclude: |
             **/.git*
